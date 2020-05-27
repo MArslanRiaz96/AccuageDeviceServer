@@ -32,7 +32,7 @@ namespace TcpChatServer
             try
             {
 
-                string path = @"C:\Users\Administrator\Desktop\Newfolder\data.txt";
+                string path = @"C:\Users\Administrator\Desktop\ArslanTCP\ArslanTCP.txt";
                 // This text is added only once to the file.
                 if (!File.Exists(path))
                 {
@@ -52,7 +52,7 @@ namespace TcpChatServer
             using (StreamWriter sw = File.AppendText(path))
             {
                     Console.WriteLine($"TCP Connected Client{tcpClient.Count}");
-                var response = DataRepositroy.IsertRaw("Server=173.248.132.203,1533; Initial Catalog=accuguage_db; User Id = sa; Password=7gUSS@nKH;", new DeviceRawData { DeviceLogin = this.tcpClient.FirstOrDefault(x=>x.NewKey==Id).LoginId, RawData = file });
+                var response = DataRepositroy.IsertRaw("Server=173.248.132.203,1533; Initial Catalog=accuguage_TCP_db; User Id = sa; Password=7gUSS@nKH;", new DeviceRawData { DeviceLogin = this.tcpClient.FirstOrDefault(x=>x.NewKey==Id).LoginId, RawData = file });
                 //Console.WriteLine(response);
                 sw.WriteLine(file);
                 
