@@ -31,34 +31,41 @@ namespace TcpChatServer
         {
             try
             {
-
-                string path = @"C:\Users\Administrator\Desktop\ArslanTCP\ArslanTCP.txt";
-                // This text is added only once to the file.
-                if (!File.Exists(path))
+                if ( this.tcpClient.Count == 0 || this.tcpClient == null)
                 {
-                    //var response = DataRepositroy.IsertRaw("Server=173.248.132.203,1533; Initial Catalog=accuguage_db; User Id = sa; Password=7gUSS@nKH;", new DeviceRawData { DeviceLogin = this.DeviceCurrentLogin, RawData = file });
-                    //Console.WriteLine(response);
-                    // Create a file to write to.
-                    using (StreamWriter sw = File.CreateText(path))
+
+                }
+                else
+                {
+                    string path = @"C:\Users\Administrator\Desktop\ArslanTCP\ArslanTCP.txt";
+                    // This text is added only once to the file.
+                    if (!File.Exists(path))
                     {
+                        //var response = DataRepositroy.IsertRaw("Server=173.248.132.203,1533; Initial Catalog=accuguage_db; User Id = sa; Password=7gUSS@nKH;", new DeviceRawData { DeviceLogin = this.DeviceCurrentLogin, RawData = file });
+                        //Console.WriteLine(response);
+                        // Create a file to write to.
+                        using (StreamWriter sw = File.CreateText(path))
+                        {
+                            var response = DataRepositroy.IsertRaw("Server=173.248.132.203,1533; Initial Catalog=accuguage_TCP_db; User Id = sa; Password=7gUSS@nKH;", new DeviceRawData { DeviceLogin = this.tcpClient.FirstOrDefault(x => x.NewKey == Id).LoginId, RawData = file });
+                            Console.WriteLine(response);
+                            sw.WriteLine(file);
+
+                        }
+                    }
+
+
+                    // This text is always added, making the file longer over time
+                    // if it is not deleted.
+                    using (StreamWriter sw = File.AppendText(path))
+                    {
+                        Console.WriteLine($"TCP Connected Client{tcpClient.Count}");
                         var response = DataRepositroy.IsertRaw("Server=173.248.132.203,1533; Initial Catalog=accuguage_TCP_db; User Id = sa; Password=7gUSS@nKH;", new DeviceRawData { DeviceLogin = this.tcpClient.FirstOrDefault(x => x.NewKey == Id).LoginId, RawData = file });
                         Console.WriteLine(response);
                         sw.WriteLine(file);
 
                     }
                 }
-          
-
-            // This text is always added, making the file longer over time
-            // if it is not deleted.
-            using (StreamWriter sw = File.AppendText(path))
-            {
-                    Console.WriteLine($"TCP Connected Client{tcpClient.Count}");
-                var response = DataRepositroy.IsertRaw("Server=173.248.132.203,1533; Initial Catalog=accuguage_TCP_db; User Id = sa; Password=7gUSS@nKH;", new DeviceRawData { DeviceLogin = this.tcpClient.FirstOrDefault(x=>x.NewKey==Id).LoginId, RawData = file });
-                Console.WriteLine(response);
-                sw.WriteLine(file);
                 
-            }
             }
             catch (Exception e)
             {
@@ -75,12 +82,12 @@ namespace TcpChatServer
 
         protected override void OnDisconnected()
         {
-            var response=tcpClient.FirstOrDefault(x => x.NewKey == Id);
-            if (response != null)
-            {
-                response.OldKey = response.NewKey;
-            }
-            Console.WriteLine($" TCP session with Id {Id} disconnected!");
+            //var response=tcpClient.FirstOrDefault(x => x.NewKey == Id);
+            //if (response != null)
+            //{
+            //    response.OldKey = response.NewKey;
+            //}
+            //Console.WriteLine($" TCP session with Id {Id} disconnected!");
         }
 
         protected override void OnReceived(byte[] buffer, long offset, long size)

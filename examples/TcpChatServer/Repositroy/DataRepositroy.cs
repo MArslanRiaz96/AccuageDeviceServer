@@ -46,7 +46,7 @@ namespace TcpChatServer.Repositroy
             }
         }
 
-        public static int IsertRaw(string connectionString,DeviceRawData deviceRawData)
+        public static int IsertRaw(string connectionString,DeviceRawData? deviceRawData)
         {
             var query = "INSERT INTO DeviceRawDatas (DeviceLogin, DeviceData, IsSync, CreationTime,IsFailedToMatch,IsDeleted) " +
                                            "VALUES (@DeviceLogin,@DeviceData,@IsSync,@CreationTime,@IsFailedToMatch,@IsDeleted) ";
